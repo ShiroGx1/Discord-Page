@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CASTER X1 Community</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #5865F2;
+            --primary-dark: #4752C4;
+            --secondary: #57F287;
+            --background: #0a0a14;
+            --card-bg: #1a1a2e;
+            --text: #ffffff;
+            --text-secondary: #b3b3b3;
+        }
+
+        body {
+            background: var(--background);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .noise {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+            opacity: 0.1;
+            pointer-events: none;
+        }
+
+        header {
+            padding: 2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--secondary), #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logo i {
+            font-size: 2.2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a:hover {
+            color: var(--secondary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--secondary);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .hero {
+            padding: 6rem 5% 4rem;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.2;
+            background: linear-gradient(45deg, #ffffff, var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 5px 15px rgba(87, 242, 135, 0.3);
+        }
+
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--primary);
+            color: white;
+            padding: 16px 40px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(88, 101, 242, 0.4);
+            border: 2px solid var(--primary);
+        }
+
+        .cta-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(88, 101, 242, 0.6);
+        }
+
+        .cta-button i {
+            font-size: 1.4rem;
+        }
+
+        .features {
+            padding: 6rem 5%;
+            position: relative;
+            z-index: 2;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 4rem;
+            background: linear-gradient(45deg, var(--secondary), #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(87, 242, 135, 0.3);
+        }
+
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: white;
+        }
+
+        .feature-card p {
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .discord-preview {
+            padding: 6rem 5%;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .discord-preview h2 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: white;
+        }
+
+        .discord-preview p {
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .server-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--secondary), #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .discord-embed {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #23272a;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .discord-header {
+            background: var(--primary);
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .discord-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .discord-info h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+            color: white;
+        }
+
+        .discord-info p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .discord-channels {
+            padding: 2rem;
+            text-align: left;
+        }
+
+        .channel-list {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .channel-group {
+            flex: 1;
+        }
+
+        .channel-category {
+            color: #b9bbbe;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .channel {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0.4rem 0;
+            color: #dcddde;
+            font-size: 0.95rem;
+            transition: color 0.2s ease;
+        }
+
+        .channel:hover {
+            color: white;
+        }
+
+        .channel i {
+            color: #7289da;
+            font-size: 0.8rem;
+        }
+
+        footer {
+            background: #0d0d1a;
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, var(--secondary), #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .copyright {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .hero p {
+                font-size: 1.1rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .server-stats {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            
+            .channel-list {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gradient-bg">
+        <div class="noise"></div>
+        
+        <header>
+            <div class="logo">
+                <i class="fas fa-crown"></i>
+                <span>CASTER X1</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#community">Community</a>
+                <a href="#about">About</a>
+            </nav>
+        </header>
+
+        <section class="hero">
+            <h1>Join the Ultimate Gaming Community</h1>
+            <p>CASTER X1 is more than just a Discord server – it's your home for epic gaming sessions, tournaments, and lifelong friendships in a safe, moderated environment.</p>
+            <a href="https://discord.gg/Gfvh8hK7F3" class="cta-button">
+                <i class="fab fa-discord"></i>
+                Join Our Discord
+            </a>
+        </section>
+
+        <section class="features" id="features">
+            <h2 class="section-title">Why Join CASTER X1</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Gaming Events</h3>
+                    <p>Weekly tournaments, game nights, and exclusive events with amazing prizes and community recognition.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Safe Environment</h3>
+                    <p>24/7 moderation, strict anti-toxicity policies, and a welcoming community for gamers of all skill levels.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Active Community</h3>
+                    <p>Over 20+ active members, voice channels always buzzing, and friends waiting to squad up with you.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="discord-preview" id="community">
+            <h2>Experience CASTER X1</h2>
+            <p>Our Discord server is designed for maximum engagement and fun. From casual chat to competitive gaming, we've got channels for every interest and activity.</p>
+            
+            <div class="server-stats">
+                <div class="stat-item">
+                    <div class="stat-number">20+</div>
+                    <div class="stat-label">Active Members</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Channels</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Voice Activity</div>
+                </div>
+            </div>
+
+            <div class="discord-embed">
+                <div class="discord-header">
+                    <div class="discord-avatar">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <div class="discord-info">
+                        <h3>CASTER X1 Community</h3>
+                        <p>Official Discord Server • 20+ Members Online</p>
+                    </div>
+                </div>
+                <div class="discord-channels">
+                    <div class="channel-list">
+                        <div class="channel-group">
+                            <div class="channel-category">🎮 Gaming</div>
+                            <div class="channel"><i class="fas fa-hashtag"></i> valorant</div>
+                            <div class="channel"><i class="fas fa-hashtag"></i> fortnite</div>
+                            <div class="channel"><i class="fas fa-hashtag"></i> minecraft</div>
+                            <div class="channel"><i class="fas fa-hashtag"></i> Mobile Legend</div>
+                        </div>
+                        <div class="channel-group">
+                            <div class="channel-category">💬 Community</div>
+                            <div class="channel"><i class="fas fa-hashtag"></i> general-chat</div>
+                            <div class="channel"><i class="fas fa-hashtag"></i> media</div>
+                            <div class="channel"><i class="fas fa-hashtag"></i> memes</div>
+                            <div class="channel"><i class="fas fa-hashtag"></i> introduction</div>
+                        </div>
+                        <div class="channel-group">
+                            <div class="channel-category">🎤 Voice</div>
+                            <div class="channel"><i class="fas fa-volume-up"></i> Public Vc</div>
+                            <div class="channel"><i class="fas fa-volume-up"></i> Chill vc</div>
+                            <div class="channel"><i class="fas fa-volume-up"></i> Record vc</div>
+                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">CASTER X1</div>
+                <p>Join thousands of gamers in the most welcoming and active gaming community on Discord.</p>
+                <a href="https://discord.gg/Gfvh8hK7F3" class="cta-button" style="margin-top: 1.5rem; display: inline-flex;">
+                    <i class="fab fa-discord"></i>
+                    Join Now
+                </a>
+                <p class="copyright" style="margin-top: 2rem;">© 2025 CASTER X1 Community. All rights reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        const discordLinks = document.querySelectorAll('a[href*="discord.gg"]');
+        discordLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                console.log('User clicked Discord invite link');
+            });
+        });
+    </script>
+</body>
+</html>
+
